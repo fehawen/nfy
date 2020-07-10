@@ -1,9 +1,9 @@
 nfy - not(ifications) for you
 ------------------
 
-Work in progress.
-
 nfy is a seriously dumb and pointless little script for diplaying notifications.
+
+Work in progress.
 
 
 How it works
@@ -13,7 +13,7 @@ In short, nfy opens a new connection to the X server, creates a window, displays
 a message (string argument passed to nfy), waits until either Tab is pressed or
 the window is clicked, then destroys the window and closes the connection.
 
-This is an incredibly stupid solution for displaying a notification, I know.
+This is an incredibly stupid solution for displaying a notification.
 
 But it works.
 
@@ -27,11 +27,7 @@ In order to build nfy, you need the Xlib header files.
 Installation
 ------------
 
-Edit the Makefile to your liking, if you so please.
-
 nfy is installed into ~/bin by default. Unless changed, do not run make as root.
-
-Build and install with:
 
     $ make clean install
 
@@ -42,8 +38,6 @@ Usage
 nfy takes one optional string argument which constitutes the message displayed.
 
 If no argument is passed, the notification will have you know so.
-
-Examples:
 
     $ nfy "This is a notification"
     $ nfy
