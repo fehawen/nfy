@@ -13,7 +13,15 @@ int main(int argc, char *argv[]) {
     }
 
     int s = DefaultScreen(d);
-    Window w = XCreateSimpleWindow(d, RootWindow(d, s), 32, 32, 900, 96, 0, BlackPixel(d, s), WhitePixel(d, s));
+
+    unsigned long getcolor(const char *col) {
+        Colormap m = DefaultColormap(d, s);
+        XColor c;
+        return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
+    }
+
+    Window w = XCreateSimpleWindow(d, RootWindow(d, s), 32, 32, 900, 96, 0,
+                                    getcolor("#8cbeb8"), getcolor("#022527"));
 
     char *msg = argc > 1 ? argv[1] : "No message to display.";
     const int MAX = 48;
@@ -30,6 +38,7 @@ int main(int argc, char *argv[]) {
 
     XGCValues values;
     values.font = font->fid;
+    values.foreground = getcolor("#8cbeb8");
 
     GC context = XCreateGC(d, w, GCFont+GCForeground, &values);
 
