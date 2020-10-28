@@ -6,7 +6,9 @@
 #include <X11/keysym.h>
 
 int main(int argc, char *argv[]) {
-    char *msg = argc > 1 ? argv[1] : "No message to display.";
+    char *msg = argc > 1 && strcmp(argv[1], "") != 0
+        ? argv[1]
+        : "No message to display.";
 
     const int place = argc > 2 ? atoi(argv[2]) : 0;
     const int charsize = 32;
