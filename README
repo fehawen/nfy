@@ -27,7 +27,7 @@ In order to build, you need the Xlib header files.
 Installation
 ------------
 
-nfy is installed into ~/bin by default. Unless changed, do not run make as root.
+nfy and nfyer are installed into ~/bin by default. Unless changed, do not run make as root.
 
     $ make clean install
 
@@ -41,6 +41,20 @@ If no argument is passed, the notification will have you know so.
 
     $ nfy "This is a notification"
     $ nfy
+
+
+Notes
+-----
+
+Only console fonts are supported at the moment, meaning you will have to manually
+edit the font used in nfyer.c, given that you know which console fonts you have
+available.
+
+You can use [xlf] to find how which fonts you have on your system that will work
+with nfyer.
+
+xlf:
+    https://github.com/fehawen/xlf
 
 
 Why on earth
