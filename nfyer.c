@@ -9,7 +9,7 @@ int main(int argc, char *argv[]) {
     char *msg = argc > 1 ? argv[1] : "No message to display.";
 
     const int place = argc > 2 ? atoi(argv[2]) : 0;
-    const int FONT_SIZE = 32;
+    const int charsize = 32;
     const int winheight = 96;
     const int wingap = 48;
 
@@ -46,7 +46,7 @@ int main(int argc, char *argv[]) {
         return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
     }
 
-    const int winlen = (strlen(msg) * 16) + (FONT_SIZE * 2);
+    const int winlen = (strlen(msg) * 16) + (charsize * 2);
 
     if ((winlen + wingap) >= screenwidth) {
         fprintf(stderr, "Message is longer than the screen width.\n");
@@ -74,7 +74,7 @@ int main(int argc, char *argv[]) {
         XNextEvent(d, &ev);
 
         if (ev.type == Expose) {
-            XDrawString(d, w, context, FONT_SIZE, 56, msg, strlen(msg));
+            XDrawString(d, w, context, charsize, 56, msg, strlen(msg));
         }
 
         if (ev.type == KeyRelease) {
