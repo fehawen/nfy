@@ -8,18 +8,12 @@
 int main(int argc, char *argv[]) {
     char *msg = argc > 1 ? argv[1] : "No message to display.";
 
-    const int PLACE = argc > 2 ? atoi(argv[2]) : 0;
+    const int place = argc > 2 ? atoi(argv[2]) : 0;
     const int FONT_SIZE = 32;
-    const int WIN_HEIGHT = 96;
-    const int WIN_GAP = 48;
+    const int winheight = 96;
+    const int wingap = 48;
 
-    int WIN_OFFSET = WIN_GAP;
-
-    if (PLACE == 1) {
-        WIN_OFFSET = (WIN_GAP * 2) + WIN_HEIGHT;
-    } else if (PLACE > 1) {
-        WIN_OFFSET = (WIN_GAP * PLACE) + (WIN_HEIGHT * PLACE) + WIN_GAP;
-    }
+    int winoffset = wingap;
 
     Display *d = XOpenDisplay(NULL);
 
@@ -30,15 +24,36 @@ int main(int argc, char *argv[]) {
 
     int s = DefaultScreen(d);
 
+    XWindowAttributes xwa;
+    XGetWindowAttributes(d, RootWindow(d, s), &xwa);
+    const int screenwidth = xwa.width;
+    const int screenheight = xwa.height;
+
+    if (place == 1) {
+        winoffset = (wingap * 2) + winheight;
+    } else if (place > 1) {
+        winoffset = (wingap * place) + (winheight * place) + wingap;
+    }
+
+    if ((winoffset + winheight) >= screenheight) {
+        fprintf(stderr, "Message list is longer than screen height.\n");
+        exit(0);
+    }
+
     unsigned long getcolor(const char *col) {
         Colormap m = DefaultColormap(d, s);
         XColor c;
         return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
     }
 
-    int winlen = (strlen(msg) * 16) + (FONT_SIZE * 2);
+    const int winlen = (strlen(msg) * 16) + (FONT_SIZE * 2);
 
-    Window w = XCreateSimpleWindow(d, RootWindow(d, s), WIN_GAP, WIN_OFFSET, winlen, WIN_HEIGHT, 0,
+    if ((winlen + wingap) >= screenwidth) {
+        fprintf(stderr, "Message is longer than the screen width.\n");
+        exit(0);
+    }
+
+    Window w = XCreateSimpleWindow(d, RootWindow(d, s), wingap, winoffset, winlen, winheight, 0,
                                     getcolor("#8cbeb8"), getcolor("#022527"));
 
     XSelectInput(d, w, ExposureMask | KeyReleaseMask | ButtonReleaseMask);
