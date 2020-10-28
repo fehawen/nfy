@@ -20,8 +20,8 @@ int main(int argc, char *argv[]) {
         return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
     }
 
-    Window w = XCreateSimpleWindow(d, RootWindow(d, s), 32, 32, 900, 96, 0,
-                                    getcolor("#f8f8f2"), getcolor("#272822"));
+    Window w = XCreateSimpleWindow(d, RootWindow(d, s), 48, 48, 900, 96, 0,
+                                    getcolor("#8cbeb8"), getcolor("#022527"));
 
     char *msg = argc > 1 ? argv[1] : "No message to display.";
     const int MAX = 48;
@@ -38,11 +38,13 @@ int main(int argc, char *argv[]) {
 
     XGCValues values;
     values.font = font->fid;
-    values.foreground = getcolor("#f8f8f2");
+    values.foreground = getcolor("#8cbeb8");
 
     GC context = XCreateGC(d, w, GCFont+GCForeground, &values);
 
     XMapWindow(d, w);
+
+    XStoreName(d, w, "nfy");
 
     XEvent ev;
     while (1) {
