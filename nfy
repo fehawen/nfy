@@ -1,0 +1,10 @@
+#!/bin/sh
+
+#
+# nfy - send message to nfyer
+#
+
+msg=${1:=""}
+offset="$(pgrep nfyer | wc -l)"
+
+nfyer "$msg" "$offset" &

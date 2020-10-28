@@ -4,18 +4,19 @@ PREFIX ?= $(HOME)
 BINDIR ?= $(PREFIX)/bin
 CC     ?= gcc
 
-all: nfy
+all: nfyer
 
-nfy: nfy.o
+nfyer: nfyer.o
 	$(CC) $(LDFLAGS) -o $@ $^ $(LIBS)
 
 install: all
+	install -Dm755 nfyer $(DESTDIR)$(BINDIR)/nfyer
 	install -Dm755 nfy $(DESTDIR)$(BINDIR)/nfy
 
 uninstall:
-	rm -f $(DESTDIR)$(BINDIR)/nfy
+	rm -f $(DESTDIR)$(BINDIR)/nfyer
 
 clean:
-	rm -f nfy *.o
+	rm -f nfyer *.o
 
 .PHONY: all install uninstall clean
