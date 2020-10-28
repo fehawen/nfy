@@ -6,6 +6,9 @@
 #include <X11/keysym.h>
 
 int main(int argc, char *argv[]) {
+    char *msg = argc > 1 ? argv[1] : "No message to display.";
+    const int FONT_SIZE = 32;
+
     Display *d = XOpenDisplay(NULL);
     if (d == NULL) {
         fprintf(stderr, "Failed to open display.\n");
@@ -20,17 +23,10 @@ int main(int argc, char *argv[]) {
         return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
     }
 
-    Window w = XCreateSimpleWindow(d, RootWindow(d, s), 48, 48, 900, 96, 0,
-                                    getcolor("#8cbeb8"), getcolor("#022527"));
+    int winlen = (strlen(msg) * 16) + (FONT_SIZE * 2);
 
-    char *msg = argc > 1 ? argv[1] : "No message to display.";
-    const int MAX = 48;
-    int len = strlen(msg);
-    if (len > MAX) {
-        msg[len - (len - MAX)] = 0;
-        strcat(msg, "...");
-        len = strlen(msg);
-    }
+    Window w = XCreateSimpleWindow(d, RootWindow(d, s), 48, 48, winlen, 96, 0,
+                                    getcolor("#8cbeb8"), getcolor("#022527"));
 
     XSelectInput(d, w, ExposureMask | KeyReleaseMask | ButtonReleaseMask);
 
@@ -51,7 +47,7 @@ int main(int argc, char *argv[]) {
         XNextEvent(d, &ev);
 
         if (ev.type == Expose) {
-            XDrawString(d, w, context, 32, 56, msg, len);
+            XDrawString(d, w, context, FONT_SIZE, 56, msg, strlen(msg));
         }
 
         if (ev.type == KeyRelease) {
