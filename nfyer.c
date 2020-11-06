@@ -56,7 +56,7 @@ int main(int argc, char *argv[]) {
     }
 
     Window w = XCreateSimpleWindow(d, RootWindow(d, s), wingap, winoffset, winlen, winheight, 0,
-                                    getcolor("#8cbeb8"), getcolor("#022527"));
+                                    getcolor("#e8e8e8"), getcolor("#1c1f27"));
 
     XSelectInput(d, w, ExposureMask | KeyReleaseMask | ButtonReleaseMask);
 
@@ -64,7 +64,7 @@ int main(int argc, char *argv[]) {
 
     XGCValues values;
     values.font = font->fid;
-    values.foreground = getcolor("#8cbeb8");
+    values.foreground = getcolor("#e8e8e8");
 
     GC context = XCreateGC(d, w, GCFont+GCForeground, &values);
 
