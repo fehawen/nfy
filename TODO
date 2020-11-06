@@ -1,2 +1,3 @@
-[ ] Read colors and config options from Xresources
+[ ] Set font and colors in config
 [ ] Support xft fonts
+[ ] Timeout for auto-disappear
