@@ -4,6 +4,13 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/keysym.h>
+#include "nfyer.h"
+
+unsigned long getcolor(Display *d, int s, const char *col) {
+    Colormap m = DefaultColormap(d, s);
+    XColor c;
+    return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
+}
 
 int main(int argc, char *argv[]) {
     char *msg = argc > 1 && strcmp(argv[1], "") != 0
@@ -42,12 +49,6 @@ int main(int argc, char *argv[]) {
         exit(0);
     }
 
-    unsigned long getcolor(const char *col) {
-        Colormap m = DefaultColormap(d, s);
-        XColor c;
-        return (!XAllocNamedColor(d, m, col, &c, &c)) ? 0 : c.pixel;
-    }
-
     const int winlen = (strlen(msg) * 16) + (charsize * 2);
 
     if ((winlen + wingap) >= screenwidth) {
@@ -56,7 +57,7 @@ int main(int argc, char *argv[]) {
     }
 
     Window w = XCreateSimpleWindow(d, RootWindow(d, s), wingap, winoffset, winlen, winheight, 0,
-                                    getcolor("#a3ebf5"), getcolor("#192d36"));
+                                    WhitePixel(d, s), getcolor(d, s, "#282828"));
 
     XSelectInput(d, w, ExposureMask | KeyReleaseMask | ButtonReleaseMask);
 
@@ -64,7 +65,7 @@ int main(int argc, char *argv[]) {
 
     XGCValues values;
     values.font = font->fid;
-    values.foreground = getcolor("#a3ebf5");
+    values.foreground = getcolor(d, s, "#d4d4d4");
 
     GC context = XCreateGC(d, w, GCFont+GCForeground, &values);
 
