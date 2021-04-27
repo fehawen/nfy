@@ -65,7 +65,7 @@ int main(int argc, char *argv[]) {
 
     XGCValues values;
     values.font = font->fid;
-    values.foreground = getcolor(d, s, "#dddddd");
+    values.foreground = getcolor(d, s, "#ffffff");
 
     GC context = XCreateGC(d, w, GCFont+GCForeground, &values);
 
